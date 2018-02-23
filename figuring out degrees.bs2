@@ -1,0 +1,30 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+'83 cycles = 360 degrees
+'((83/4)-2) 19 cycles = 90 degrees
+
+PAUSE 5000
+
+
+cycle VAR Word
+
+'DO
+'  PULSOUT 13, 650
+
+'  PULSOUT 12, 650
+
+'  PAUSE 20
+
+'loop
+
+
+DO
+FOR  cycle = 1 TO 19
+
+  PULSOUT 12, 850
+  PULSOUT 13, 850
+  PAUSE 20
+NEXT
+PAUSE 10000
+LOOP

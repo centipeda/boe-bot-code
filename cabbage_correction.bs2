@@ -1,0 +1,14 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+cycles VAR Word
+  PAUSE 5000
+FOR cycles = 1 TO 190
+
+  PULSOUT 12, 850
+  PULSOUT 13, 690
+
+  PAUSE 20
+
+NEXT
+END

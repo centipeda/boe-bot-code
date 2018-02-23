@@ -1,0 +1,38 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+cycles VAR Word
+
+PAUSE 20000
+FOR cycles = 1 TO 293
+  PULSOUT 12, 850
+  PULSOUT 13, 670
+  PAUSE 20
+NEXT
+
+note VAR Word
+  note = 1750
+  FREQOUT 15, note / 2, 783  ' G5
+  FREQOUT 15, note / 8, 740  ' F#5
+  FREQOUT 15, note / 4, 783  ' G5
+  FREQOUT 15, note / 2, 880  ' A5
+  FREQOUT 15, note / 2, 629  ' E5
+  FREQOUT 15, note / 2, 587 ' D5
+  FREQOUT 15, note / 2, 523 ' C5
+  FREQOUT 15, note / 8, 494 ' B4
+  FREQOUT 15, note / 8, 523 ' C5
+  FREQOUT 15, note / 4, 587 ' D5
+  FREQOUT 15, (note * 7 / 8), 440 ' A4
+  PAUSE note / 8
+  FREQOUT 15, note / 2, 494 ' B4
+  FREQOUT 15, note / 8, 554 ' C#5
+  FREQOUT 15, note / 4, 587 ' D5
+  FREQOUT 15, note / 8, 629 ' E5
+  FREQOUT 15, note / 2, 880 ' A5
+  FREQOUT 15, note / 2, 587 ' D5
+  FREQOUT 15, note * 5 / 8, 783 ' G5
+  FREQOUT 15, note / 4, 740' F#5
+  FREQOUT 15, note / 8, 629 ' E5
+  FREQOUT 15, note * 7 / 8, 587 ' D5
+
+END

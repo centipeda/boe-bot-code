@@ -1,0 +1,15 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+cycles VAR Word
+width VAR Word
+
+
+DO
+  DEBUG "pulse width:"
+  DEBUGIN DEC width
+  FOR cycles = 1 TO 255
+    PULSOUT 12, width
+    PAUSE 20
+  NEXT
+LOOP

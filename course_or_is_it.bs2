@@ -1,0 +1,120 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}\
+
+' Accurate enough for half of course
+Cycles VAR Word
+Set VAR Word
+PAUSE 15000
+
+' First triangle
+set = 184
+GOSUB forward ' 76.5 cm
+set = 15
+GOSUB clock ' 60 deg
+set = 184
+GOSUB back ' 76.5 cm
+set = 14
+GOSUB clock ' 60 deg
+set = 185                 ' should be 178
+GOSUB forward' 76.75 cm
+set = 9 '10
+GOSUB clock ' 31.25 deg
+
+' Middle zig-zag
+set =  55
+GOSUB forward ' 26 cm
+set =   20
+GOSUB clock  ' 90 deg
+set =    93
+GOSUB forward ' 38 cm
+set =     13
+GOSUB clock ' 45 deg
+set =      103
+GOSUB back ' 42 cm
+set =       20
+GOSUB counter_clock ' 90 deg
+set =       100
+GOSUB forward ' 41 cm
+set =         11
+GOSUB clock ' 45 deg
+set =          85
+GOSUB back ' 38 cm
+set =           21
+GOSUB counter_clock ' 90 deg
+set =            66
+GOSUB forward ' 27 cm
+set =  8
+GOSUB clock ' 30 deg
+
+' Last triangle
+set =              184
+GOSUB forward ' 75.5 cm
+set =               16
+GOSUB clock ' 60.5 deg
+set =                182
+GOSUB back ' 76 cm
+set =                 15
+GOSUB clock ' 60 deg
+set =                  185
+GOSUB forward ' 76 cm
+GOSUB Victory_Song
+END
+
+forward:
+  FOR cycles = 1 TO set
+    PULSOUT 12, 850
+    PULSOUT 13, 690
+    PAUSE 20
+  NEXT
+  RETURN
+
+back:
+  FOR cycles = 1 TO set
+    PULSOUT 12, 650
+    PULSOUT 13, 810
+    PAUSE 20
+  NEXT
+  RETURN
+
+clock:
+  FOR cycles = 1 TO set
+    PULSOUT 12, 850
+    PULSOUT 13, 810
+    PAUSE 20
+  NEXT
+  RETURN
+
+counter_clock:
+  FOR cycles = 1 TO set
+    PULSOUT 12, 650
+    PULSOUT 13, 690
+    PAUSE 20
+  NEXT
+  RETURN
+
+
+victory_song:
+  note VAR Word
+  note = 1750
+  FREQOUT 15, note / 2, 783  ' G5
+  FREQOUT 15, note / 8, 740  ' F#5
+  FREQOUT 15, note / 4, 783  ' G5
+  FREQOUT 15, note / 2, 880  ' A5
+  FREQOUT 15, note / 2, 629  ' E5
+  FREQOUT 15, note / 2, 587 ' D5
+  FREQOUT 15, note / 2, 523 ' C5
+  FREQOUT 15, note / 8, 494 ' B4
+  FREQOUT 15, note / 8, 523 ' C5
+  FREQOUT 15, note / 4, 587 ' D5
+  FREQOUT 15, (note * 7 / 8), 440 ' A4
+  PAUSE note / 8
+  FREQOUT 15, note / 2, 494 ' B4
+  FREQOUT 15, note / 8, 554 ' C#5
+  FREQOUT 15, note / 4, 587 ' D5
+  FREQOUT 15, note / 8, 629 ' E5
+  FREQOUT 15, note / 2, 880 ' A5
+  FREQOUT 15, note / 2, 587 ' D5
+  FREQOUT 15, note * 5 / 8, 783 ' G5
+  FREQOUT 15, note / 4, 740' F#5
+  FREQOUT 15, note / 8, 629 ' E5
+  FREQOUT 15, note * 7 / 8, 587 ' D5

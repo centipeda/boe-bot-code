@@ -1,0 +1,24 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+'41.25 cm/100 cycles
+' .4125 cm/cycle
+'62 cm
+' 62/.4125 = 150.3 cycles
+
+PAUSE 10000
+
+cycles VAR Word
+
+forward:
+DO
+
+FOR cycles = 1 TO 151
+  PULSOUT 12, 850
+  PULSOUT 13, 650
+  PAUSE 20
+NEXT
+
+PAUSE 20000
+
+LOOP

@@ -1,0 +1,49 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+dash VAR Word
+dot VAR  Word
+
+duration VAR Word
+
+dash = 500
+dot = 250
+DO
+GOSUB War_Cry
+LOOP
+
+END
+
+War_Cry:
+
+PAUSE 500
+GOSUB pulse
+FREQOUT 0, dash, 1047
+GOSUB pulse
+PAUSE 100
+GOSUB pulse
+FREQOUT 0, dot, 1047
+GOSUB pulse
+PAUSE 100
+GOSUB pulse
+FREQOUT 0, dot, 1047
+GOSUB pulse
+PAUSE 200
+GOSUB pulse
+FREQOUT 0, dot, 1047
+GOSUB pulse
+PAUSE 100
+GOSUB pulse
+FREQOUT 0, dot, 1047
+GOSUB pulse
+PAUSE 200
+GOSUB pulse
+FREQOUT 0, dot, 1047
+GOSUB pulse
+RETURN
+
+pulse:
+  PULSOUT 12, 650
+  PULSOUT 13, 850
+  PAUSE 20
+  RETURN

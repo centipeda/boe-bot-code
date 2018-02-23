@@ -1,0 +1,138 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+' PIEZO PIN0
+' YELLOW LED PIN4
+' RED LED PIN5
+' RIGHT WHISKER PIN8
+' LEFT WHISKER PIN10
+c VAR Word
+reset_counter VAR Word
+counter VAR Nib
+left_counter VAR Nib
+right_counter VAR Nib
+loop_counter VAR Nib
+left_old VAR Bit
+right_old VAR Bit
+left_very_old VAR Bit
+right_very_old VAR Bit
+left_state VAR Bit
+right_state VAR Bit
+reset_counter = 0
+left_old = 1
+right_old = 0
+right_counter = 0
+left_counter = 0
+
+FREQOUT 0, 1000, 1000
+LOW 4
+LOW 5
+DO
+  IF reset_counter > 50 THEN
+    loop_counter = 1
+    left_counter = 1
+    right_counter = 1
+    reset_counter = 0
+  ENDIF
+
+  IF (IN8 <> IN10) THEN
+    right_very_old = right_old
+    left_very_old = left_old
+    right_old = right_state
+    left_old = left_state
+    right_state = IN8
+    left_state = IN10
+
+    IF (left_old <> left_state) AND (right_old <> right_state) THEN
+      loop_counter = loop_counter + 1
+    ELSEIF (left_very_old <> left_old) AND (right_very_old <> right_old) AND (left_state = left_old) AND (right_state = right_old) THEN
+      loop_counter = loop_counter + 1
+    ' ELSEIF (left_old = left_state) AND (right_old <> right_state) THEN
+    '   left_counter = left_counter + 1
+    ' ELSEIF (left_old <> left_state) AND (right_old = right_state) THEN
+    '   right_counter = right_counter + 1
+    ELSE
+      loop_counter = 1
+      left_counter = 1
+      right_counter = 1
+    ENDIF
+    IF (loop_counter > 3) THEN
+        loop_counter = 1
+        HIGH 5
+        HIGH 4
+        ' PAUSE 500
+        GOSUB turn_around
+        LOW 5
+        LOW 4
+    ENDIF
+
+  ENDIF
+
+  IF (IN8 = 0) THEN
+    HIGH 4
+    GOSUB right_hit
+  ELSEIF IN10 = 0 THEN
+    HIGH 5
+    GOSUB left_hit
+  ELSEIF (IN8 = 0) AND (IN10 = 0) THEN
+    HIGH 4
+    HIGH 5
+    GOSUB double_hit
+  ELSE
+    LOW 4
+    LOW 5
+    GOSUB no_hit
+  ENDIF
+
+  reset_counter = reset_counter + 1
+LOOP
+END
+
+back_up:
+  FOR c = 0 TO 7
+    PULSOUT 12, 850
+    PULSOUT 13, 650
+    PAUSE 20
+  NEXT
+  RETURN
+
+right_hit:
+  GOSUB back_up
+  FOR c = 0 TO 6 '5
+    PULSOUT 12, 850
+    PULSOUT 13, 850
+    PAUSE 20
+  NEXT
+  RETURN
+
+left_hit:
+  GOSUB back_up
+  FOR c = 0 TO 6 '5
+    PULSOUT 12, 650
+    PULSOUT 13, 650
+    PAUSE 20
+  NEXT
+  RETURN
+
+double_hit:
+  FOR c = 0 TO 30
+    PULSOUT 12, 850
+    PULSOUT 13, 850
+    PAUSE 20
+  NEXT
+  RETURN
+
+no_hit:
+  PULSOUT 12, 650
+  PULSOUT 13, 805 ' 810
+  PAUSE 20
+  RETURN
+
+turn_around:
+
+  FOR c = 0 TO 22
+    PULSOUT 12, 650
+    PULSOUT 13, 650
+    PAUSE 20
+  NEXT
+  RETURN
