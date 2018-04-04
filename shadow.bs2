@@ -1,0 +1,48 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+'----------[variables]-----------------------------------------------------------------------------------------------------------------------------------------------
+
+freqselect VAR Nib
+irfrequency VAR Word
+RR VAR Bit
+LR VAR Bit
+Ldistance VAR Nib
+Rdistance VAR Nib
+zone_l  VAR Byte
+zone_r  VAR Byte
+pulse_l VAR Word
+pulse_r VAR Word
+
+set_dist CON Byte
+prop_constant CON Byte
+
+' [37500, 38250, 39500, 40500, 41500]
+  ' pin2 is RL
+  ' pin3 is RR
+  ' pin12 is LL
+  ' pin11 is LR
+DO
+  ' get the distances
+  FOR freqselect = 1 TO 4
+    LOOKUP freqselect, [41500, 40500, 39500, 38250, 27500], irfrequency
+    FREQOUT 2, 1, irfrequency
+    RR = IN3
+    IF RR = 0 THEN
+      zone_r = freqselect
+    ENDIF
+
+    FREQOUT 12, 1, irfrequency
+    LR = IN11
+    IF LR = 0 THEN
+      zone_l = freqselect
+    ENDIF
+  NEXT
+
+  pulse_l = set_dist - zone_l * 35 + 750
+  pulse_r = set_dist - zone_r * -35 + 750
+
+  PULSOUT 12, pulse_l
+  PULSOUT 13, pulse_r
+
+LOOP
